@@ -4,6 +4,7 @@ const Mongoose = require('mongoose');
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+const Listing = require("./Models/listing");
 const Mongoose_URL = "mongodb://localhost:27017/airbnb";
 
 async function main() {
@@ -17,8 +18,17 @@ main()
         console.error("Database connection error:", err);
     });
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+app.get("/testlisting", async (req, res) => {
+  let sampleListing = new Listing({
+    title: "My home",
+    description: "Finest property",
+    price: 202382,
+    location: "kasur",
+    country: "pakistan",
+  });
+  await sampleListing.save();
+  console.log("sample was save");
+  res.send("successfull")
 });
 
 app.listen(PORT, () => {

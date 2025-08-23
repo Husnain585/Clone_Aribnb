@@ -10,7 +10,7 @@ const listingSchema = new Schema({
     image: {
         type : String,
         default : "https://unsplash.com/photos/shadows-of-two-people-making-a-heart-y1mOuOfwitg",
-        set: (v) => v === "" ? "https://unsplash.com/photos/shadows-of-two-people-making-a-heart-y1mOuOfwitg" : v
+        set: (v) => v === "" ? "https://unsplash.com/photos/shadows-of-two-people-making-a-heart-y1mOuOfwitg" : v,
     },
     price: Number,
     location: String,
