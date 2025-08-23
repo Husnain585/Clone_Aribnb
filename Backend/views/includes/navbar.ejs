@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+  <div class="container-fluid">
+
+    <!-- Logo -->
+    <a class="navbar-brand fw-bold text-danger" href="/">
+      <i class="bi bi-house-door-fill"></i> WanderLust
+    </a>
+
+    <!-- Center Search Bar -->
+    <form class="d-flex mx-auto border rounded-pill shadow-sm px-3 py-1" style="max-width: 500px; flex: 1;">
+      <input class="form-control border-0 me-2" type="search" placeholder="Search destinations" aria-label="Search">
+      <button class="btn btn-danger rounded-pill px-3" type="submit">Search</button>
+    </form>
+
+    <!-- Right Side Menu -->
+    <ul class="navbar-nav ms-auto align-items-center">
+      <li class="nav-item">
+        <a class="nav-link fw-semibold" href="#">Become a Host</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#"><i class="bi bi-globe"></i></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle border rounded-pill px-3 py-2 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-list me-2"></i>
+          <i class="bi bi-person-circle fs-5"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="/listings">All Listings</a></li>
+          <li><a class="dropdown-item" href="/listing/new">Create Listing</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#">Log In</a></li>
+          <li><a class="dropdown-item" href="#">Sign Up</a></li>
+        </ul>
+      </li>
+    </ul>
+
+  </div>
+</nav>
