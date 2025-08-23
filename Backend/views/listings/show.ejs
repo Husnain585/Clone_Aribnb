@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create New Listing</title>
+  <style>
+    /* ===== Reset & Base ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: #f9fafb;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+
+    /* ===== Card Container ===== */
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    /* ===== Header ===== */
+    .card h1 {
+      text-align: center;
+      color: #2563eb;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+    }
+
+    /* ===== Form ===== */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: #444;
+      display: block;
+    }
+
+    input, textarea {
+      padding: 0.7rem 0.9rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      width: 100%;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 4px rgba(37, 99, 235, 0.3);
+      outline: none;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    /* ===== Button Row ===== */
+    .btn-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    /* ===== Buttons ===== */
+    .btn {
+      flex: 1;
+      text-align: center;
+      padding: 0.8rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      border: none;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #333;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-secondary:hover {
+      background: #d1d5db;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Create a New Listing</h1>
+    <form method="POST" action="/listings">
+
+      <div>
+        <label for="title">Title</label>
+        <input id="title" type="text" name="listing[title]" required>
+      </div>
+
+      <div>
+        <label for="price">Price</label>
+        <input id="price" type="number" name="listing[price]" required>
+      </div>
+
+      <div>
+        <label for="image">Image URL</label>
+        <input id="image" type="text" name="listing[image]" placeholder="http://example.com/image.jpg">
+      </div>
+
+      <div>
+        <label for="description">Description</label>
+        <textarea id="description" name="listing[description]" rows="4" required></textarea>
+      </div>
+
+      <div>
+        <label for="location">Location</label>
+        <input id="location" type="text" name="listing[location]" required>
+      </div>
+
+      <div>
+        <label for="country">Country</label>
+        <input id="country" type="text" name="listing[country]" required>
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Create Listing</button>
+        <a href="/listings" class="btn btn-secondary">Cancel</a>
+      </div>
+
+    </form>
+  </div>
+
+</body>
+</html>

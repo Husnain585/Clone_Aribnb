@@ -3,16 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WanderLust</title>
+    <title>WanderLust - Listings</title>
+    <style>
+        /* ===== Reset & Base ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: #f9fafb;
+            color: #333;
+            line-height: 1.6;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ===== Header ===== */
+        header {
+            background: #2563eb;
+            color: white;
+            padding: 1.2rem 2rem;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* ===== Container ===== */
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* ===== Button ===== */
+        .btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* ===== Listings Grid ===== */
+        .listings {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .listing-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .listing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+        }
+        .listing-card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #2563eb;
+        }
+        .listing-card p {
+            font-size: 0.95rem;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-    <h1>All Listing</h1>
-    <ul>
-        <% for(let listing of allListings) { %>
-            <li>
-                <h2><a href="/listings/<%= listing._id %>"><%= listing.title %></a></h2>
-            </li>
-        <% } %>
-    </ul>
+    
+    <!-- Header -->
+    <header>🌍 WanderLust - Explore All Listings</header>
+
+    <div class="container">
+        <!-- Create New Listing -->
+        <form action="/listing/new" method="get">
+            <button class="btn">+ Create New Listing</button>
+        </form>
+
+        <!-- Listings Grid -->
+        <div class="listings">
+            <% for(let listing of allListings) { %>
+                <div class="listing-card">
+                    <h2>
+                        <a href="/listings/<%= listing._id %>">
+                            <%= listing.title %>
+                        </a>
+                    </h2>
+                    <p><%= listing.location %> • <%= listing.country %></p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
 </body>
 </html>
+    
