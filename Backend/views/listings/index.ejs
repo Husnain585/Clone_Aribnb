@@ -1,108 +1,61 @@
 <%= layout("/layouts/boilerplate") %>
-    <style>
-        /* ===== Reset & Base ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background: #f9fafb;
-            color: #333;
-            line-height: 1.6;
-        }
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
 
-        /* ===== Header ===== */
-        header {
-            background: #2563eb;
-            color: white;
-            padding: 1.2rem 2rem;
-            text-align: center;
-            font-size: 1.8rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        /* ===== Container ===== */
-        .container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        /* ===== Button ===== */
-        .btn {
-            display: inline-block;
-            background: #2563eb;
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            transition: background 0.3s ease;
-            border: none;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-        .btn:hover {
-            background: #1d4ed8;
-        }
-
-        /* ===== Listings Grid ===== */
-        .listings {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        .listing-card {
-            background: white;
-            padding: 1rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .listing-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
-        }
-        .listing-card h2 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: #2563eb;
-        }
-        .listing-card p {
-            font-size: 0.95rem;
-            color: #555;
-        }
-    </style>
 <body>
-    
-    <!-- Header -->
-    <header>🌍 WanderLust - Explore All Listings</header>
+  <!-- Header -->
+  <header class="bg-primary text-white text-center py-3">
+    🌍 WanderLust - Explore All Listings
+  </header>
 
-    <div class="container">
-        <!-- Create New Listing -->
-        <form action="/listing/new" method="get">
-            <button class="btn">+ Create New Listing</button>
-        </form>
+  <div class="container my-4">
+    <!-- Create New Listing -->
+    <form action="/listing/new" method="get" class="mb-4">
+      <button class="btn btn-primary">+ Create New Listing</button>
+    </form>
 
-        <!-- Listings Grid -->
-        <div class="listings">
-            <% for(let listing of allListings) { %>
-                <div class="listing-card">
-                    <h2>
-                        <a href="/listings/<%= listing._id %>">
-                            <%= listing.title %>
-                        </a>
-                    </h2>
-                    <p><%= listing.location %> • <%= listing.country %></p>
-                </div>
-            <% } %>
+    <!-- Listings Grid -->
+    <div class="row g-4">
+      <% for(let listing of allListings) { %>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="card h-100 shadow-sm listing-card">
+            <!-- Image -->
+            <a href="/listings/<%= listing._id %>">
+              <img src="<%= listing.image %>" class="card-img-top" alt="<%= listing.title %>">
+            </a>
+
+            <!-- Card Body -->
+            <div class="card-body">
+              <h5 class="card-title mb-1">
+                <a href="/listings/<%= listing._id %>" class="stretched-link text-decoration-none text-dark">
+                  <%= listing.title %>
+                </a>
+              </h5>
+              <p class="card-text text-muted mb-1"><%= listing.location %>, <%= listing.country %></p>
+              <p class="fw-bold">₹ <%= listing.price.toLocaleString("en-IN") %> / night</p>
+            </div>
+          </div>
         </div>
+      <% } %>
     </div>
+  </div>
 
+  <!-- Custom CSS -->
+  <style>
+    .listing-card {
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .listing-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    }
+    .listing-card img {
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .listing-card:hover img {
+      transform: scale(1.05);
+    }
+  </style>
 </body>
