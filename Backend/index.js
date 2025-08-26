@@ -5,8 +5,8 @@ const express = require("express");
 const Mongoose = require("mongoose");
 const path = require("path");
 const ejsMate = require("ejs-mate");
-const { render } = require("ejs");
 const methodOverride = require("method-override");
+const wrapAsync = require("./utils/wrapAsync");
 
 // =======================
 // App Configuration
@@ -59,7 +59,7 @@ app.get("/listings", async (req, res) => {
 });
 
 // New Route
-app.get("/listing/new", (req, res) => {
+app.get("/listings/new", (req, res) => {
   res.render("listings/new");
 });
 
@@ -79,44 +79,60 @@ app.get("/listings/:id", async (req, res) => {
 });
 
 // Create Route
-app.post("/listings", async (req, res, next) => {
-  try {
+app.post("/listings", wrapAsync(async (req, res, next) => {
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect("/listings");
-  } catch (error) {
-    next(error);
-  }
-});
+}));
 
 // Edit Route
-app.get("/listing/:id/edit", async (req, res) => {
+app.get("/listings/:id/edit", async (req, res) => {
   let { id } = req.params;
-  const listing = await Listing.findById(id);
-  res.render("listings/edit", { listing });
+  try {
+    const listing = await Listing.findById(id);
+    if (!listing) {
+      return res.status(404).send("Listing not found");
+    }
+    res.render("listings/edit", { listing });
+  } catch (err) {
+    console.error("Error fetching listing for edit:", err);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 // Update Route
 app.put("/listings/:id", async (req, res) => {
   let { id } = req.params;
-  const updatedListing = await Listing.findByIdAndUpdate(id, {
-    ...req.body.listing,
-  });
-  res.redirect(`/listings/${updatedListing._id}`);
+  try {
+    const updatedListing = await Listing.findByIdAndUpdate(
+      id,
+      { ...req.body.listing },
+      { new: true }
+    );
+    res.redirect(`/listings/${updatedListing._id}`);
+  } catch (err) {
+    console.error("Error updating listing:", err);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 // Delete Route
 app.delete("/listings/:id", async (req, res) => {
   let { id } = req.params;
-  await Listing.findByIdAndDelete(id);
-  res.redirect("/listings");
+  try {
+    await Listing.findByIdAndDelete(id);
+    res.redirect("/listings");
+  } catch (err) {
+    console.error("Error deleting listing:", err);
+    res.status(500).send("Internal Server Error");
+  }
 });
+
 // Error Handling Middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something broke!");
 });
-
 
 // =======================
 // Server Listener
@@ -124,4 +140,3 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-// =======================
