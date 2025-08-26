@@ -8,6 +8,7 @@ const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 const wrapAsync = require("./utils/wrapAsync");
 const ExpressError = require("./utils/ExpressErrors");
+const listingSchema = require("./schema");
 
 // =======================
 // App Configuration
@@ -44,6 +45,17 @@ app.engine("ejs", ejsMate);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
+
+// Middleware for validating listing data
+function validateListing(req, res, next) {
+  const { error } = listingSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+}
 
 // =======================
 // Routes
@@ -90,9 +102,11 @@ app.get(
 // Create Route
 app.post(
   "/listings",
+  validateListing,
   wrapAsync(async (req, res, next) => {
-    if(!req.body.listing) {
-      throw new ExpressError("Invalid Listing Data", 400);
+    let result = listingSchema.validate(req.body);
+    if(result.error) {
+      throw new ExpressError(400, result.error);
     }
     const newListing = new Listing(req.body.listing);
     await newListing.save();
@@ -121,10 +135,8 @@ app.get(
 // Update Route
 app.put(
   "/listings/:id",
+  validateListing,
   wrapAsync(async (req, res) => {
-    if(!req.body.listing) {
-      throw new ExpressError("Invalid Listing Data", 400);
-    }
     let { id } = req.params;
     try {
       const updatedListing = await Listing.findByIdAndUpdate(
@@ -164,7 +176,8 @@ app.use((err, req, res, next) => {
   let { statusCode = 500, message = "Something went wrong" } = err;
   if (!(err instanceof ExpressError))
     err = new ExpressError(message, statusCode);
-  res.status(statusCode).send(message);
+  res.render("error.ejs", {message});
+  // res.status(statusCode).send(message);
 });
 
 // =======================
