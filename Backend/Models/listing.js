@@ -9,8 +9,8 @@ const listingSchema = new Schema({
     description: String,
     image: {
         type : String,
-        default : "https://unsplash.com/photos/shadows-of-two-people-making-a-heart-y1mOuOfwitg",
-        set: (v) => v === "" ? "https://unsplash.com/photos/shadows-of-two-people-making-a-heart-y1mOuOfwitg" : v,
+        default : "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800",
+        set: (v) => v === "" ? "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800" : v,
     },
     price: Number,
     location: String,
