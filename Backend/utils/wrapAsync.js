@@ -3,3 +3,5 @@ module.exports = (fn) => {
     fn(req, res, next).catch(next);
   };
 }
+// This function takes an asynchronous function (fn) as an argument and returns a new function.
+// The returned function executes the original function and catches any errors that occur during its execution.
